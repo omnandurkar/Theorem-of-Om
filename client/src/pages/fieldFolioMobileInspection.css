@@ -1,0 +1,9 @@
+@media (max-width: 650px) {
+  .folio-evidence-desk img {
+    transition: transform 0.24s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .folio-evidence-desk.is-inspecting img {
+    transform: scale(1.7);
+  }
+}

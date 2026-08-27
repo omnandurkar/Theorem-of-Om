@@ -1,0 +1,120 @@
+# Revision Checklist — Om’s Notebook Annotations
+
+- [x] Define the annotation syntax, pastel palette, and reader-safety rules.
+- [x] Add persistent author controls for pastel highlighting, imperfect underlines, hand-drawn circles, and pencil-scratch notes.
+- [x] Render annotations across public case summaries, evidence cards, and author notes without masking source text.
+- [x] Verify desktop/mobile annotation rendering, test the project, and save the completed enhancement.
+- [x] Extend the notebook toolbar to summary, journal body, margin note, and related-case note fields.
+- [x] Re-verify the complete composition workflow and save the annotation checkpoint.
+- [x] Add persistent note-treatment and placement settings for Om’s sticky notes.
+- [x] Add author controls for brass pins, archival tape layouts, and note placement.
+- [x] Render the selected physical note treatment in public case files and verify it responsively.
+- [x] Add an adaptive Polaroid frame that derives portrait, landscape, or square treatment from each loaded Drive image.
+- [x] Apply the Polaroid evidence-print treatment to all public Drive image placements.
+- [x] Verify responsive image framing, test the orientation helper, and save the image-treatment checkpoint.
+- [x] Add a persistent per-case editorial stamp setting with evidence-status defaults.
+- [x] Give Om a stamp selector for TOP SECRET, UNVERIFIED, DECLASSIFIED, CASE CLOSED, auto, or no stamp.
+- [x] Render original field-station stamp graphics across public article and case thumbnails, then test and verify them responsively.
+- [x] Extend stamp graphics to the public case-index file listing and complete final stamp verification.
+- [x] Add database-backed pagination for public journal and case-index records as the archive grows.
+- [x] Add reusable archival pagination controls and breadcrumb trails for collection and case-file views.
+- [x] Verify responsive archive navigation, test page-window behavior, and save the navigation checkpoint.
+- [x] Add persistent reader theory letters with name, theory text, and Om-managed inbox status.
+- [x] Add the public Submit a Theory letter form with only the requested reader fields.
+- [x] Add Om-only inbox reading, status controls, and deletion for submitted letters.
+- [x] Test, visually verify, and checkpoint the reader-letter feature.
+- [x] Add persistent era, latitude, and longitude fields to Om’s case-file workflow.
+- [x] Add public topic, era, location, and credibility filters to the archive search experience.
+- [x] Build an interactive map that uses only Om-entered case coordinates and links pins to public files.
+- [x] Test, visually verify, and checkpoint the discovery tools.
+- [x] Refine Om’s editor into a clearer editorial desk with functional draft and publish-now controls.
+- [x] Add a visible planned-release control that safely states scheduled publishing is coming soon.
+- [x] Replace the current cursor treatment and deepen restrained field-station Easter eggs.
+- [x] Add slow, reduced-motion-safe scroll-linked parallax to existing image-led field-station sections.
+- [x] Create a 100-idea editorial roadmap and identify the 10 highest-value future additions.
+- [x] Test, visually verify, and checkpoint the editorial-experience update.
+- [x] Add live paper previews for case-file typography, palette, symbol, vector, sticker, note, and stamp choices.
+- [x] Add visually descriptive swatches/previews to Om’s editor selectors for colors, fonts, circles, and paper treatments.
+- [x] Add a separate reader-preview view that Om can open before publishing a case file.
+- [x] Test, visually verify, and checkpoint the visual-editor upgrade.
+- [x] Repair the non-responsive home “Pull to desk” interaction.
+- [x] Make existing home image and field-station parallax visibly perceptible while preserving reduced-motion safety.
+- [x] Test, visually verify, and checkpoint the repaired home interaction and motion.
+- [x] Add consistent tactile hover, focus, and press feedback to interactive archive controls.
+- [x] Add restrained paper/card lift, clip, and title-shift cues to prominent clickable field-station elements.
+- [x] Verify reduced-motion behavior, test, and checkpoint the interaction polish.
+- [x] Add meaningful inspect/reveal interactions to high-value archive and field-station elements.
+- [x] Add accessible expandable evidence and source-detail controls where readers benefit from more context.
+- [x] Verify the interactive states on desktop/mobile, test, and checkpoint the interactive-element upgrade.
+- [x] Add compact source-detail expand/collapse controls to the public case-file source trail.
+- [x] Add a clearly labelled source-card preview to the case-file template and visually verify its drawer states.
+- [x] Redesign the case-file editor around a clear staged authoring sequence and visible completion progress.
+- [x] Group advanced presentation, source, map, and annotation controls behind purposeful progressive disclosure.
+- [x] Preserve a reliable live reader preview and draft/publish actions throughout the guided workflow.
+- [x] Test, visually verify, and checkpoint the case-file authoring UX redesign.
+- [x] Add a persistent release bar so Om can save a draft or publish from any authoring step.
+- [x] Create and maintain a How to Use Om’s Desk handbook with an explicit update log.
+- [x] Add concise, step-specific authoring guidance and a visible handbook entry point inside the case-file desk.
+- [x] Test, visually verify, and checkpoint the Om guidance update.
+- [x] Restrict home-page parallax to major images and intended image collages.
+- [x] Prevent decorative home-page layers from covering readable text.
+- [x] Test, visually verify, and checkpoint the parallax and layering refinement.
+- [x] Save the verified home-page parallax and layering refinement as a recoverable project checkpoint.
+- [x] Make the normal system cursor the default and add a remembered custom-cursor preference.
+- [x] Add a clear cursor-preference control that is accessible on desktop and unobtrusive on mobile.
+- [x] Expand the curated ancient-symbol library and its visual selector previews.
+- [x] Test, visually verify, update the handbook, and checkpoint the cursor and symbol update.
+- [x] Save the verified cursor-preference and expanded-symbol update as a recoverable project checkpoint.
+- [x] Define and complete first-time-reader and returning-reader manual journeys, plus a non-destructive Om-author workflow review without administrator login or data mutation.
+- [x] Record observed friction, accessibility considerations, and prioritized remediation ideas in the maintained handbook.
+- [x] Verify the completed usability audit documentation and save it as a recoverable project checkpoint.
+- [x] Make global header search reliably route to and focus the archive search field.
+- [x] Improve first-time orientation across home navigation and the Signal Board’s initial filter choice.
+- [x] Strengthen empty public shelves, index, and map states with real next actions and a lighter zero-pin map state.
+- [x] Add clear local save confirmation and prevent the reader-preferences panel from obscuring article context.
+- [x] Add an evidence-aware pre-publish checklist to Om’s release workflow.
+- [x] Add author tools to search/filter existing case files and start a draft from a reader letter without publishing.
+- [x] Clarify private preview prerequisites and make the full desk handbook accessible inside Om’s protected workflow.
+- [x] Re-test affected reader and author journeys, update the handbook/audit, and checkpoint the completed improvements.
+- [x] Save the validated usability-remediation implementation and completed handbook/audit updates as a recoverable project checkpoint.
+- [x] Replace Manus OAuth access checks with secure server-backed curator password sessions.
+- [x] Build a Tomb Raider–style puzzle gate with a ⌘/Ctrl + K password override and no password exposure in browser code.
+- [x] Add an authenticated in-desk password-change control with validation and feedback.
+- [x] Re-test curator and public boundaries, update the handbook, and checkpoint the access redesign.
+- [x] Run a final public-route sanity check after removing curator reliance on Manus OAuth.
+- [x] Save the verified curator puzzle and password-access redesign as a recoverable project checkpoint.
+- [x] Add persistent, server-verified antechamber puzzle presets with one active puzzle at a time.
+- [x] Let Om create, edit, activate, and remove puzzle presets from the protected desk.
+- [x] Render active puzzle titles, instructions, clues, relic choices, and solution order from Om’s configuration.
+- [x] Add complete in-desk and handbook guidance for safe puzzle editing, activation, and recovery through the password override.
+- [x] Test configurable puzzle access and management, then checkpoint the completed puzzle-control system.
+- [x] Save the verified configurable antechamber preset system as a recoverable project checkpoint.
+- [x] Redesign the Antechamber Workshop around a clear visual relic board and live antechamber preview.
+- [x] Add accessible drag-and-drop composition for visible relics and the private answer path, with non-drag fallback controls.
+- [x] Improve workshop instructions, feedback, responsive layout, and handbook guidance for the visual puzzle authoring flow.
+- [x] Test, visually verify, checkpoint, and document the upgraded puzzle editor.
+- [x] Save the verified visual relic-board and drag-and-drop workshop upgrade as a recoverable project checkpoint.
+- [x] Prepare a portable project export with the maintained handbook, usability audit, required assets, and deployment notes.
+- [x] Verify the export contents and document the remaining database and secret migration work for GitHub/Vercel hosting.
+- [x] Reduce excess empty space and rebalance Om’s Favourite section without losing its personal field-notes character.
+- [x] Review the refined Om’s Favourite layout on desktop and mobile, then checkpoint the visual improvement.
+- [x] Save the verified compact Om’s Favourite layout refinement as a recoverable project checkpoint.
+- [x] Rebuild the portable source ZIP so it includes the verified compact Om’s Favourite refinement.
+- [x] Verify the refreshed portable ZIP contents and deliver it to Om.
+- [x] Assess whether Sketchbook can be adopted safely for an interactive journal feature without disrupting Theorem of Kemet.
+- [x] Create an original Kemet field-folio reader with useful page navigation and close-inspection controls.
+- [x] Add an accessible, responsive entry point for the field-folio reader without changing existing reader flows.
+- [x] Validate the field-folio reader across desktop/mobile, keyboard, and reduced-motion preferences; then document and checkpoint it.
+- [x] Save the verified field-folio reader as a recoverable project checkpoint.
+- [x] Restore a clearly visible paper-turn transition when readers change Field Folio records.
+- [x] Verify the repaired Field Folio page turn on desktop and mobile, then checkpoint it.
+- [x] Save the repaired Field Folio turn animation as a recoverable project checkpoint.
+- [x] Research useful, license-safe open-source references for potential Theorem of Kemet reader, archive, and evidence features.
+- [x] Add reader-facing high-resolution artifact magnification that supports pointer, touch, keyboard, and reduced-motion needs.
+- [x] Add a scoped visual evidence-relationship board for real claim, source, counterargument, and related-case context.
+- [x] Add an accessible, persistent curator source-ordering desk without changing the existing article authoring flow.
+- [x] Validate and document the full evidence-workflow upgrade across desktop, mobile, reader, and curator paths; then checkpoint it.
+- [x] Save the verified evidence-workflow upgrade as a recoverable project checkpoint.
+- [ ] Rebuild the portable source package with the complete current codebase and all local visual assets.
+- [ ] Refresh the GitHub and Vercel handoff guidance for the current full-stack project state.
+- [ ] Verify the portable archive excludes secrets and dependencies, then deliver it to Om.

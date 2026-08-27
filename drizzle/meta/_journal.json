@@ -1,0 +1,62 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1787640770603,
+      "tag": "0000_easy_gorgon",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1787642337992,
+      "tag": "0001_cold_shen",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787644283197,
+      "tag": "0002_swift_exiles",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1787645179808,
+      "tag": "0003_swift_kabuki",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1787645994661,
+      "tag": "0004_lyrical_warlock",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1787646530557,
+      "tag": "0005_massive_absorbing_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1787723515826,
+      "tag": "0006_misty_miracleman",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1787724326895,
+      "tag": "0007_acoustic_tomorrow_man",
+      "breakpoints": true
+    }
+  ]
+}

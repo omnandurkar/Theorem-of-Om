@@ -1,0 +1,38 @@
+@media (max-width: 650px) {
+  .field-folio-turning-sheet {
+    display: flex;
+    left: 0 !important;
+    right: auto !important;
+    top: 0;
+    bottom: auto;
+    width: 100%;
+    height: 440px;
+    padding: 28px 25px;
+    transform-origin: right center;
+  }
+
+  .field-folio-turning-sheet strong {
+    font-size: 38px;
+    max-width: 240px;
+  }
+
+  .field-folio-turning-sheet.is-forward {
+    animation: field-folio-turn-mobile-forward 0.68s cubic-bezier(0.22, 0.82, 0.2, 1) both;
+  }
+
+  .field-folio-turning-sheet.is-back {
+    animation: field-folio-turn-mobile-back 0.68s cubic-bezier(0.22, 0.82, 0.2, 1) both;
+  }
+}
+
+@keyframes field-folio-turn-mobile-forward {
+  0% { opacity: 1; transform: perspective(1100px) rotateY(0) translateX(0); }
+  42% { opacity: 1; transform: perspective(1100px) rotateY(-65deg) translateX(-9%); }
+  100% { opacity: 0; transform: perspective(1100px) rotateY(-178deg) translateX(-23%); }
+}
+
+@keyframes field-folio-turn-mobile-back {
+  0% { opacity: 1; transform: perspective(1100px) rotateY(0) translateX(0); }
+  42% { opacity: 1; transform: perspective(1100px) rotateY(65deg) translateX(9%); }
+  100% { opacity: 0; transform: perspective(1100px) rotateY(178deg) translateX(23%); }
+}
