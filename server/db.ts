@@ -1,18 +1,41 @@
 import { and, count, desc, eq, gte, like, lte, or } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
 import { curatorCredentials, curatorPuzzles, JournalCategory, journalCategories, JournalEntry, journalEntries, journalSources, JournalSource, InsertUser, TheoryLetter, theoryLetters, users } from "../drizzle/schema";
-import { ENV } from "./_core/env";
 
+let _pool: Pool | null = null;
 let _db: ReturnType<typeof drizzle> | null = null;
 
+function getConnectionString() {
+  return process.env.SUPABASE_DATABASE_URL || process.env.DATABASE_URL;
+}
+
 export async function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
-    try { _db = drizzle(process.env.DATABASE_URL); } catch (error) { console.warn("[Database] Failed to connect:", error); _db = null; }
+  const connectionString = getConnectionString();
+  if (!_db && connectionString) {
+    try {
+      _pool = new Pool({ connectionString, ssl: { rejectUnauthorized: false }, max: 4 });
+      _db = drizzle(_pool);
+    } catch (error) {
+      console.warn("[Database] Failed to initialize PostgreSQL:", error);
+      _pool = null;
+      _db = null;
+    }
   }
   return _db;
 }
 
-async function requireDb() { const db = await getDb(); if (!db) throw new Error("Database is unavailable"); return db; }
+export async function closeDb() {
+  await _pool?.end();
+  _pool = null;
+  _db = null;
+}
+
+async function requireDb() {
+  const db = await getDb();
+  if (!db) throw new Error("Database is unavailable");
+  return db;
+}
 
 export async function upsertUser(user: InsertUser): Promise<void> {
   if (!user.openId) throw new Error("User openId is required for upsert");
@@ -20,28 +43,77 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   if (!db) return;
   const values: InsertUser = { openId: user.openId };
   const updateSet: Record<string, unknown> = {};
-  (["name", "email", "loginMethod"] as const).forEach((field) => { if (user[field] !== undefined) { values[field] = user[field] ?? null; updateSet[field] = user[field] ?? null; } });
-  values.role = user.role ?? (user.openId === ENV.ownerOpenId ? "admin" : "user");
+  (["name", "email", "loginMethod"] as const).forEach((field) => {
+    if (user[field] !== undefined) {
+      values[field] = user[field] ?? null;
+      updateSet[field] = user[field] ?? null;
+    }
+  });
+  values.role = user.role ?? "user";
   updateSet.role = values.role;
-  values.lastSignedIn = user.lastSignedIn ?? new Date(); updateSet.lastSignedIn = values.lastSignedIn;
-  await db.insert(users).values(values).onDuplicateKeyUpdate({ set: updateSet });
+  values.lastSignedIn = user.lastSignedIn ?? new Date();
+  updateSet.lastSignedIn = values.lastSignedIn;
+  await db.insert(users).values(values).onConflictDoUpdate({ target: users.openId, set: updateSet });
 }
 
-export async function getUserByOpenId(openId: string) { const db = await getDb(); if (!db) return undefined; const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1); return result[0]; }
+export async function getUserByOpenId(openId: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
+  return result[0];
+}
 
-export async function getCuratorCredential() { const db = await requireDb(); const rows = await db.select().from(curatorCredentials).where(eq(curatorCredentials.id, 1)).limit(1); return rows[0]; }
-export async function setCuratorPasswordHash(passwordHash: string) { const db = await requireDb(); await db.insert(curatorCredentials).values({ id: 1, passwordHash }).onDuplicateKeyUpdate({ set: { passwordHash } }); }
+export async function getCuratorCredential() {
+  const db = await requireDb();
+  const rows = await db.select().from(curatorCredentials).where(eq(curatorCredentials.id, 1)).limit(1);
+  return rows[0];
+}
+
+export async function setCuratorPasswordHash(passwordHash: string) {
+  const db = await requireDb();
+  await db.insert(curatorCredentials).values({ id: 1, passwordHash }).onConflictDoUpdate({ target: curatorCredentials.id, set: { passwordHash } });
+}
 
 export type CuratorPuzzleInput = { name: string; title: string; instruction: string; clue: string; relicIds: string[]; solutionOrder: string[] };
 const serializePuzzleRelics = (relics: string[]) => relics.join(",");
 const parsePuzzleRelics = (relics: string) => relics.split(",").filter(Boolean);
 const hydratePuzzle = (puzzle: typeof curatorPuzzles.$inferSelect) => ({ ...puzzle, relicIds: parsePuzzleRelics(puzzle.relicIds), solutionOrder: parsePuzzleRelics(puzzle.solutionOrder) });
-export async function listCuratorPuzzles() { const db = await requireDb(); return (await db.select().from(curatorPuzzles).orderBy(desc(curatorPuzzles.updatedAt))).map(hydratePuzzle); }
-export async function getActiveCuratorPuzzle() { const db = await requireDb(); const rows = await db.select().from(curatorPuzzles).where(eq(curatorPuzzles.isActive, true)).limit(1); return rows[0] ? hydratePuzzle(rows[0]) : null; }
-export async function createCuratorPuzzle(input: CuratorPuzzleInput, isActive = false) { const db = await requireDb(); if (isActive) await db.update(curatorPuzzles).set({ isActive: false }); const result = await db.insert(curatorPuzzles).values({ ...input, relicIds: serializePuzzleRelics(input.relicIds), solutionOrder: serializePuzzleRelics(input.solutionOrder), isActive }); return Number(result[0].insertId); }
-export async function updateCuratorPuzzle(id: number, input: CuratorPuzzleInput) { const db = await requireDb(); await db.update(curatorPuzzles).set({ ...input, relicIds: serializePuzzleRelics(input.relicIds), solutionOrder: serializePuzzleRelics(input.solutionOrder) }).where(eq(curatorPuzzles.id, id)); }
-export async function activateCuratorPuzzle(id: number) { const db = await requireDb(); await db.update(curatorPuzzles).set({ isActive: false }); await db.update(curatorPuzzles).set({ isActive: true }).where(eq(curatorPuzzles.id, id)); }
-export async function deleteCuratorPuzzle(id: number) { const db = await requireDb(); const active = await getActiveCuratorPuzzle(); if (active?.id === id) throw new Error("Activate another puzzle before retiring this one"); await db.delete(curatorPuzzles).where(eq(curatorPuzzles.id, id)); }
+
+export async function listCuratorPuzzles() {
+  const db = await requireDb();
+  return (await db.select().from(curatorPuzzles).orderBy(desc(curatorPuzzles.updatedAt))).map(hydratePuzzle);
+}
+
+export async function getActiveCuratorPuzzle() {
+  const db = await requireDb();
+  const rows = await db.select().from(curatorPuzzles).where(eq(curatorPuzzles.isActive, true)).limit(1);
+  return rows[0] ? hydratePuzzle(rows[0]) : null;
+}
+
+export async function createCuratorPuzzle(input: CuratorPuzzleInput, isActive = false) {
+  const db = await requireDb();
+  if (isActive) await db.update(curatorPuzzles).set({ isActive: false });
+  const result = await db.insert(curatorPuzzles).values({ ...input, relicIds: serializePuzzleRelics(input.relicIds), solutionOrder: serializePuzzleRelics(input.solutionOrder), isActive }).returning({ id: curatorPuzzles.id });
+  return result[0]?.id ?? 0;
+}
+
+export async function updateCuratorPuzzle(id: number, input: CuratorPuzzleInput) {
+  const db = await requireDb();
+  await db.update(curatorPuzzles).set({ ...input, relicIds: serializePuzzleRelics(input.relicIds), solutionOrder: serializePuzzleRelics(input.solutionOrder) }).where(eq(curatorPuzzles.id, id));
+}
+
+export async function activateCuratorPuzzle(id: number) {
+  const db = await requireDb();
+  await db.update(curatorPuzzles).set({ isActive: false });
+  await db.update(curatorPuzzles).set({ isActive: true }).where(eq(curatorPuzzles.id, id));
+}
+
+export async function deleteCuratorPuzzle(id: number) {
+  const db = await requireDb();
+  const active = await getActiveCuratorPuzzle();
+  if (active?.id === id) throw new Error("Activate another puzzle before retiring this one");
+  await db.delete(curatorPuzzles).where(eq(curatorPuzzles.id, id));
+}
 
 export type JournalEntryInput = Omit<JournalEntry, "id" | "authorId" | "driveRenderUrl" | "createdAt" | "updatedAt" | "publishedAt" | "caseNumber" | "caseStatus" | "firstRecorded" | "location" | "era" | "mapLatitude" | "mapLongitude" | "timelineDate" | "evidenceLevel" | "claim" | "documentedEvidence" | "counterargument" | "anomaly" | "theory" | "authorTake" | "relatedCaseSlugs" | "relationNote" | "stickyTreatment" | "stickyPlacement" | "stampKind"> & { categoryId?: number | null; driveSourceUrl?: string | null; driveRenderUrl?: string | null; imageCaption?: string | null; stickyTitle?: string | null; stickyBody?: string | null; stickyTreatment?: JournalEntry["stickyTreatment"]; stickyPlacement?: JournalEntry["stickyPlacement"]; stampKind?: JournalEntry["stampKind"]; caseNumber?: string | null; caseStatus?: JournalEntry["caseStatus"]; firstRecorded?: string | null; location?: string | null; era?: string | null; mapLatitude?: number | null; mapLongitude?: number | null; timelineDate?: string | null; evidenceLevel?: number; claim?: string | null; documentedEvidence?: string | null; counterargument?: string | null; anomaly?: string | null; theory?: string | null; authorTake?: string | null; relatedCaseSlugs?: string | null; relationNote?: string | null; sources: Array<{ label: string; url: string; note?: string | null }> };
 
@@ -90,7 +162,12 @@ export async function listAdminEntries() { const db = await requireDb(); return 
 export async function listCategories() { const db = await requireDb(); return db.select().from(journalCategories).orderBy(journalCategories.name); }
 export async function listSources(entryId: number) { const db = await requireDb(); return db.select().from(journalSources).where(eq(journalSources.entryId, entryId)).orderBy(journalSources.position); }
 
-export async function createTheoryLetter(input: Pick<TheoryLetter, "readerName" | "theory">) { const db = await requireDb(); const result = await db.insert(theoryLetters).values(input); return Number(result[0].insertId); }
+export async function createTheoryLetter(input: Pick<TheoryLetter, "readerName" | "theory">) {
+  const db = await requireDb();
+  const result = await db.insert(theoryLetters).values(input).returning({ id: theoryLetters.id });
+  return result[0]?.id ?? 0;
+}
+
 export async function listTheoryLetters() { const db = await requireDb(); return db.select().from(theoryLetters).orderBy(desc(theoryLetters.createdAt)); }
 export async function updateTheoryLetterStatus(id: number, status: TheoryLetter["status"]) { const db = await requireDb(); await db.update(theoryLetters).set({ status }).where(eq(theoryLetters.id, id)); }
 export async function deleteTheoryLetter(id: number) { const db = await requireDb(); await db.delete(theoryLetters).where(eq(theoryLetters.id, id)); }
@@ -103,20 +180,23 @@ async function replaceSources(entryId: number, sources: JournalEntryInput["sourc
 
 export async function createJournalEntry(authorId: number, input: JournalEntryInput) {
   const db = await requireDb();
-  const result = await db.insert(journalEntries).values({ ...input, authorId, caseStatus: input.caseStatus ?? "disputed", evidenceLevel: input.evidenceLevel ?? 50, publishedAt: input.status === "published" ? new Date() : null });
-  const entryId = Number(result[0].insertId);
-  await replaceSources(entryId, input.sources);
+  const { sources, ...entryInput } = input;
+  const result = await db.insert(journalEntries).values({ ...entryInput, authorId, caseStatus: input.caseStatus ?? "disputed", evidenceLevel: input.evidenceLevel ?? 50, publishedAt: input.status === "published" ? new Date() : null }).returning({ id: journalEntries.id });
+  const entryId = result[0]?.id ?? 0;
+  if (!entryId) throw new Error("Journal entry was not created");
+  await replaceSources(entryId, sources);
   return entryId;
 }
 
 export async function updateJournalEntry(id: number, input: JournalEntryInput) {
   const db = await requireDb();
-  await db.update(journalEntries).set({ ...input, caseStatus: input.caseStatus ?? "disputed", evidenceLevel: input.evidenceLevel ?? 50, publishedAt: input.status === "published" ? new Date() : null }).where(eq(journalEntries.id, id));
-  await replaceSources(id, input.sources);
+  const { sources, ...entryInput } = input;
+  await db.update(journalEntries).set({ ...entryInput, caseStatus: input.caseStatus ?? "disputed", evidenceLevel: input.evidenceLevel ?? 50, publishedAt: input.status === "published" ? new Date() : null }).where(eq(journalEntries.id, id));
+  await replaceSources(id, sources);
 }
 
 export async function deleteJournalEntry(id: number) { const db = await requireDb(); await db.delete(journalSources).where(eq(journalSources.entryId, id)); await db.delete(journalEntries).where(eq(journalEntries.id, id)); }
-export async function createCategory(input: Pick<JournalCategory, "name" | "slug" | "description" | "color">) { const db = await requireDb(); const result = await db.insert(journalCategories).values(input); return Number(result[0].insertId); }
+export async function createCategory(input: Pick<JournalCategory, "name" | "slug" | "description" | "color">) { const db = await requireDb(); const result = await db.insert(journalCategories).values(input).returning({ id: journalCategories.id }); return result[0]?.id ?? 0; }
 export async function updateCategory(id: number, input: Pick<JournalCategory, "name" | "slug" | "description" | "color">) { const db = await requireDb(); await db.update(journalCategories).set(input).where(eq(journalCategories.id, id)); }
 export async function deleteCategory(id: number) { const db = await requireDb(); await db.update(journalEntries).set({ categoryId: null }).where(eq(journalEntries.categoryId, id)); await db.delete(journalCategories).where(eq(journalCategories.id, id)); }
 

@@ -33,7 +33,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <Link href="/" className="brand-lockup" aria-label="Theorem of Kemet home">
-        <img src="/assets/kemet-mark.png" alt="" className="brand-mark" />
+        <img src="/assets/kemet-mark.webp" alt="" className="brand-mark" />
         <span className="brand-type">
           <strong>THEOREM</strong>
           <small>OF KEMET</small>
@@ -102,7 +102,7 @@ export function ReadingRail({ current = "ARCHIVE / 2026" }: { current?: string }
 export function PageFooter() {
   return (
     <footer className="page-footer">
-      <div className="footer-seal"><img src="/assets/kemet-mark.png" alt="" /></div>
+      <div className="footer-seal"><img src="/assets/kemet-mark.webp" alt="" /></div>
       <div>
         <p className="micro-label">THEOREM OF KEMET · EDITED IN THE PRESENT</p>
         <p className="footer-line">An independent history reading room by <strong>Om Nandurkar</strong>.</p>

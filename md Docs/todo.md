@@ -115,6 +115,11 @@
 - [x] Add an accessible, persistent curator source-ordering desk without changing the existing article authoring flow.
 - [x] Validate and document the full evidence-workflow upgrade across desktop, mobile, reader, and curator paths; then checkpoint it.
 - [x] Save the verified evidence-workflow upgrade as a recoverable project checkpoint.
-- [ ] Rebuild the portable source package with the complete current codebase and all local visual assets.
-- [ ] Refresh the GitHub and Vercel handoff guidance for the current full-stack project state.
-- [ ] Verify the portable archive excludes secrets and dependencies, then deliver it to Om.
+- [x] Rebuild the portable source package with the complete current codebase and all local visual assets.
+- [x] Refresh the GitHub and Vercel handoff guidance for the current full-stack project state.
+- [x] Verify the portable archive excludes secrets and dependencies, then deliver it to Om.
+- [x] Prepare a portfolio-ready Theorem of Kemet project brief for reuse in a detailed project page.
+- [x] Audit and plan a Manus-independent deployment path that keeps Drizzle and moves the database to Supabase PostgreSQL for Vercel.
+- [x] Migrate Drizzle from MySQL to Supabase PostgreSQL while retaining current journal, curator, puzzle, source, and reader-letter capabilities.
+- [x] Replace remaining Manus runtime, storage, and legacy OAuth dependencies with a Vercel-compatible serverless application boundary.
+- [x] Generate and apply reviewed PostgreSQL migrations, validate the independent app, and prepare a Vercel-ready source package.

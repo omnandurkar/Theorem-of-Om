@@ -62,7 +62,7 @@ export default function Investigations() {
         <div className="switchboard-copy"><span className="micro-label">THEOREM OF KEMET · MYTHIC ANOMALY INDEX</span><h1>Follow the<br /><em>signal.</em><br />Question the noise.</h1><p>A field board for themes that deserve both imagination and a counterweight: pyramids, sky maps, mutation myths, guardian figures, cosmic visitors, border creatures, ritual technology, and the cultural afterlife of ancient Egypt.</p></div>
         <div className="switchboard-annotation annotation-one">NOISE<br />IS NOT A<br />NEGATIVE.</div>
         <div className="switchboard-annotation annotation-two">KEEP A<br />SECOND<br />EXPLANATION.</div>
-        <img className="switchboard-stickers" src="/assets/kemet-sticker-motifs.png" alt="Hand-illustrated field-note stickers" />
+        <img className="switchboard-stickers" src="/assets/kemet-sticker-motifs.webp" alt="Hand-illustrated field-note stickers" />
         <div className="switchboard-red-thread"><i /><i /><i /></div>
       </section>
 

@@ -164,6 +164,7 @@ Reader controls now include an explicit close action and float away from the art
 | **2026-08-26** | Rebuilt the Antechamber Workshop as a visual relic board with drag-and-drop placement/reordering, a click-to-place fallback for keyboard and touch, selected-relic feedback, board-validity feedback, and a live public antechamber preview. |
 | **2026-08-27** | Added an original public Field Folio reader: readers can compare Om’s curated core records with a leaf index, keyboard and button navigation, evidence inspection, full-record links, mobile detail zoom, and reduced-motion safeguards. |
 | **2026-08-27** | Added a three-part evidence-workflow upgrade: close inspection for inline Drive prints, real source and related-case context on public evidence boards, and an accessible drag-or-button source-order desk that persists order through the normal case save workflow. |
+| **2026-08-28** | Moved the journal to an independent Drizzle + Supabase PostgreSQL foundation, removed managed runtime/OAuth/storage dependencies, localized the core visual asset set, and prepared the Express/tRPC application for Vercel without changing Om’s curator workflow. |
 
 ## Update Protocol
 
