@@ -1,1 +1,0 @@
-ALTER TABLE `journal_entries` ADD `stampKind` varchar(32) DEFAULT 'auto' NOT NULL;

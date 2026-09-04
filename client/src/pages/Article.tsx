@@ -7,13 +7,31 @@ import { ArrowLeft, ArrowUpRight, Bookmark, Share2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { Link, useParams } from "wouter";
-import { articles } from "@/data/articles";
+import { articles, type Article } from "@/data/articles";
 import { getLocalRecord } from "@/lib/localArchive";
 import { PageFooter, ReadingRail } from "@/components/SiteChrome";
 import { ReaderControls } from "@/components/ReaderControls";
 import { parseSavedRecords, SAVED_RECORDS_KEY, toggleSavedRecord } from "@/lib/readerSavedRecords";
 
-function RevealText({ children, delay = 0 }: { children: string; delay?: number }) { const ref = useRef<HTMLParagraphElement>(null); const inView = useInView(ref, { once: true, margin: "-12%" }); const words = children.split(" "); return <p ref={ref} className="article-paragraph">{words.map((word, index) => <motion.span key={`${word}-${index}`} initial={{ opacity: 0.2, y: 4 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.34, delay: delay + index * 0.018 }}>{word}{"\u00A0"}</motion.span>)}</p>; }
+function RevealText({ children, delay = 0 }: { children: string; delay?: number }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-12%" });
+  const words = children.split(" ");
+  return (
+    <p ref={ref} className="article-paragraph">
+      {words.map((word, index) => (
+        <motion.span
+          key={`${word}-${index}`}
+          initial={{ opacity: 1, y: 0 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.25, delay: delay + index * 0.012 }}
+        >
+          {word}{"\u00A0"}
+        </motion.span>
+      ))}
+    </p>
+  );
+}
 
 function EvidenceFragment({ chapter }: { chapter: number }) { const image = chapter % 2 === 0 ? "/assets/kemet-evidence.jpg" : "/assets/kemet-scroll.jpg"; return <aside className={`article-evidence article-evidence-${chapter}`}><div className="evidence-pin" /><img src={image} alt="A related archival fragment" /><div><span className="micro-label">MARGIN / {String(chapter + 1).padStart(2, "0")}</span><strong>{chapter === 0 ? "Object trail" : "Context slip"}</strong><p>{chapter === 0 ? "The visible mark is not the whole record." : "Set the claim beside the material world."}</p></div></aside>; }
 
@@ -21,7 +39,7 @@ export default function Article() {
   const { slug } = useParams<{ slug: string }>();
   const localRecord = slug ? getLocalRecord(slug) : undefined;
   const fallback = articles.find((record) => record.slug === slug) || articles[0];
-  const article = localRecord ? { ...localRecord, image: localRecord.image || "/assets/om-specimen-field-station.webp", tone: localRecord.presentation.palette === "ink" ? "night" as const : "paper" as const, sections: [{ label: "I. OM’S FIELD TEXT", heading: localRecord.title, paragraphs: localRecord.body.split(/\n{2,}/).filter(Boolean) }] } : fallback;
+  const article: Article = localRecord ? { ...localRecord, image: localRecord.image || "/assets/om-specimen-field-station.webp", tone: localRecord.presentation.palette === "ink" ? "night" : "paper", sources: [], sections: [{ label: "I. OM’S FIELD TEXT", heading: localRecord.title, paragraphs: localRecord.body.split(/\n{2,}/).filter(Boolean) }] } : fallback;
   const nextArticle = articles[(articles.findIndex((record) => record.slug === fallback.slug) + 1) % articles.length];
   const previewStyle = localRecord ? { "--record-font": localRecord.presentation.fontFamily, "--record-wash": localRecord.presentation.paletteHex } as CSSProperties : undefined;
   const [savedRecords, setSavedRecords] = useState<string[]>(() => typeof window === "undefined" ? [] : parseSavedRecords(window.localStorage.getItem(SAVED_RECORDS_KEY)));

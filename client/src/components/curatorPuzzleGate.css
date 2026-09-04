@@ -1,0 +1,709 @@
+/* ── Curator Puzzle Gate Styling ────────────────────────────────────────────── */
+
+.puzzle-gate-v2 {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: radial-gradient(circle at 50% 30%, rgba(26, 66, 62, 0.4), transparent 50%),
+              linear-gradient(135deg, #071515 0%, #0d2624 50%, #051010 100%);
+  color: #e9ebd8;
+  font-family: "Manrope", sans-serif;
+  overflow: hidden;
+}
+
+.puzzle-gate-v2::before {
+  content: "";
+  position: absolute;
+  inset: 20px;
+  border: 1px solid rgba(212, 181, 116, 0.2);
+  pointer-events: none;
+  border-radius: 6px;
+}
+
+.puzzle-stars-bg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(240, 230, 200, 0.4) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* ── Mode Switcher Tabs ─────────────────────────────────────────────────── */
+
+.puzzle-mode-switcher {
+  display: flex;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(212, 181, 116, 0.25);
+  padding: 4px;
+  border-radius: 30px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 5;
+}
+
+.mode-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: transparent;
+  border: none;
+  color: #a4b8af;
+  font: 600 11px "DM Mono", monospace;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mode-tab-btn:hover {
+  color: #f4eee1;
+}
+
+.mode-tab-btn.active {
+  background: #d4b574;
+  color: #0d2624;
+  font-weight: 700;
+  box-shadow: 0 0 15px rgba(212, 181, 116, 0.3);
+}
+
+/* ── Main Vault Container ────────────────────────────────────────────────── */
+
+.puzzle-vault-card {
+  position: relative;
+  z-index: 2;
+  width: min(720px, 100%);
+  background: rgba(13, 38, 36, 0.85);
+  border: 1px solid rgba(212, 181, 116, 0.35);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 36px 32px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.vault-header h1 {
+  margin: 8px 0;
+  font: 600 clamp(36px, 5vw, 56px)/0.9 "Cormorant Garamond", serif;
+  color: #f4eee1;
+}
+
+.vault-header h1 em {
+  color: #d4b574;
+  font-style: normal;
+}
+
+.vault-instruction {
+  color: #a4b8af;
+  font-size: 13px;
+  max-width: 460px;
+  margin: 8px auto 0;
+  line-height: 1.5;
+}
+
+.vault-clue-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 6px 14px;
+  background: rgba(212, 181, 116, 0.08);
+  border: 1px solid rgba(212, 181, 116, 0.25);
+  color: #d4b574;
+  font: 11px "DM Mono", monospace;
+  border-radius: 20px;
+}
+
+/* ── MODE 1: Rotational Celestial Ring Dial ───────────────────────────────── */
+
+.ring-dial-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 28px 0;
+}
+
+.ring-dial-stage {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  display: grid;
+  place-items: center;
+}
+
+.alignment-laser {
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 50%;
+  width: 2px;
+  background: linear-gradient(180deg, #d4b574, transparent);
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 0 8px #d4b574;
+}
+
+.alignment-pointer {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #d4b574;
+  font-size: 14px;
+  z-index: 11;
+}
+
+.dial-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 181, 116, 0.3);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  display: grid;
+  place-items: center;
+}
+
+.dial-ring.outer {
+  width: 270px;
+  height: 270px;
+  border-color: rgba(212, 181, 116, 0.35);
+  background: radial-gradient(circle, transparent 60%, rgba(212, 181, 116, 0.05));
+}
+
+.dial-ring.middle {
+  width: 190px;
+  height: 190px;
+  border-color: rgba(62, 180, 137, 0.4);
+  background: radial-gradient(circle, transparent 60%, rgba(62, 180, 137, 0.05));
+}
+
+.dial-ring.inner {
+  width: 110px;
+  height: 110px;
+  border-color: rgba(147, 112, 219, 0.4);
+  background: radial-gradient(circle, transparent 50%, rgba(147, 112, 219, 0.05));
+}
+
+.ring-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font: 700 9px "DM Mono", monospace;
+  color: #c5d8cf;
+  text-transform: uppercase;
+}
+
+.ring-node.pos-top { top: 6px; }
+.ring-node.pos-right { right: 6px; }
+.ring-node.pos-bottom { bottom: 6px; }
+.ring-node.pos-left { left: 6px; }
+
+.ring-node i {
+  font-style: normal;
+  font-size: 18px;
+  color: #d4b574;
+}
+
+.dial-center-core {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #143532;
+  border: 2px solid #d4b574;
+  display: grid;
+  place-items: center;
+  color: #d4b574;
+  box-shadow: 0 0 15px rgba(212, 181, 116, 0.3);
+  z-index: 5;
+}
+
+.ring-controls-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ring-rotate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 181, 116, 0.25);
+  color: #e9ebd8;
+  font: 600 10px "DM Mono", monospace;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.ring-rotate-btn:hover {
+  background: rgba(212, 181, 116, 0.15);
+  border-color: #d4b574;
+  color: #f4eee1;
+}
+
+/* ── MODE 2: Orion Constellation Matrix ───────────────────────────────────── */
+
+.constellation-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 24px 0;
+}
+
+.constellation-svg-wrap {
+  position: relative;
+  width: min(340px, 100%);
+  height: 280px;
+  background: radial-gradient(circle, rgba(14, 38, 38, 0.8), #071515);
+  border: 1px solid rgba(212, 181, 116, 0.25);
+  border-radius: 6px;
+}
+
+.star-node-btn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.star-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1a4a44;
+  border: 2px solid #a4b8af;
+  box-shadow: 0 0 6px rgba(164, 184, 175, 0.4);
+  transition: all 0.2s ease;
+}
+
+.star-node-btn:hover .star-dot,
+.star-node-btn.selected .star-dot {
+  background: #d4b574;
+  border-color: #fff9eb;
+  box-shadow: 0 0 12px #d4b574, 0 0 20px #d4b574;
+  transform: scale(1.3);
+}
+
+.star-label {
+  font: 700 9px "DM Mono", monospace;
+  color: #a4b8af;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.constellation-progress-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 16px;
+  font: 11px "DM Mono", monospace;
+  color: #a4b8af;
+}
+
+.constellation-step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 181, 116, 0.4);
+}
+
+.constellation-step-dot.active {
+  background: #d4b574;
+  box-shadow: 0 0 8px #d4b574;
+}
+
+/* ── MODE 3: Relic Sequence Tablet (Upgraded) ─────────────────────────────── */
+
+.relic-sequence-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 24px 0;
+}
+
+.relic-slots-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.relic-slot {
+  width: 52px;
+  height: 52px;
+  border: 1px dashed rgba(212, 181, 116, 0.4);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  color: #d4b574;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.relic-slot.filled {
+  border-style: solid;
+  border-color: #d4b574;
+  background: rgba(212, 181, 116, 0.1);
+  box-shadow: 0 0 12px rgba(212, 181, 116, 0.2);
+}
+
+.relic-grid-v2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: min(480px, 100%);
+}
+
+.relic-tile-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 12px;
+  background: linear-gradient(145deg, rgba(26, 66, 62, 0.6), rgba(10, 30, 28, 0.8));
+  border: 1px solid rgba(212, 181, 116, 0.25);
+  border-radius: 6px;
+  color: #e9ebd8;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.relic-tile-btn i {
+  font-style: normal;
+  font-size: 32px;
+  color: #d4b574;
+  transition: transform 0.2s ease;
+}
+
+.relic-tile-btn span {
+  font: 600 10px "DM Mono", monospace;
+  text-transform: uppercase;
+  color: #a4b8af;
+}
+
+.relic-tile-btn:hover:not(:disabled) {
+  border-color: #d4b574;
+  background: rgba(212, 181, 116, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.relic-tile-btn:hover:not(:disabled) i {
+  transform: scale(1.15);
+}
+
+.relic-tile-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ── Om Curator Header Badge ──────────────────────────────────────────────── */
+
+.om-curator-header-badge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 24px;
+  background: linear-gradient(135deg, rgba(26, 66, 62, 0.9), rgba(12, 36, 34, 0.95));
+  border: 1.5px solid #d4b574;
+  border-radius: 40px;
+  box-shadow: 0 0 25px rgba(212, 181, 116, 0.35), inset 0 0 15px rgba(212, 181, 116, 0.15);
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 10;
+  animation: badgeGlow 3s infinite alternate ease-in-out;
+}
+
+@keyframes badgeGlow {
+  0% { box-shadow: 0 0 15px rgba(212, 181, 116, 0.25); }
+  100% { box-shadow: 0 0 35px rgba(212, 181, 116, 0.55), 0 0 10px #ffffff; }
+}
+
+.badge-seal {
+  font-size: 22px;
+  color: #d4b574;
+  text-shadow: 0 0 10px #d4b574;
+}
+
+.badge-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.badge-text small {
+  font: 700 8px "DM Mono", monospace;
+  letter-spacing: 0.15em;
+  color: #a4b8af;
+}
+
+.badge-text strong {
+  font: 600 clamp(18px, 2.5vw, 24px)/1 "Cormorant Garamond", serif;
+  color: #f4eee1;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.badge-sub {
+  font: 600 7px "DM Mono", monospace;
+  letter-spacing: 0.12em;
+  color: #d4b574;
+}
+
+/* ── Insane Spin & Cosmic Light Beam Animations ────────────────────────────── */
+
+.auto-solve-btn {
+  background: linear-gradient(135deg, #d4b574, #b5924d) !important;
+  color: #071515 !important;
+  border-color: #f4eee1 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 16px rgba(212, 181, 116, 0.4);
+}
+
+.auto-solve-btn:hover:not(:disabled) {
+  background: #ffffff !important;
+  color: #071515 !important;
+  box-shadow: 0 0 25px #ffffff, 0 0 40px #d4b574;
+}
+
+.stage-insane-mode {
+  overflow: visible;
+}
+
+.spin-outer-insane {
+  animation: spinOuterInsane 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+.spin-middle-insane {
+  animation: spinMiddleInsane 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+.spin-inner-insane {
+  animation: spinInnerInsane 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+@keyframes spinOuterInsane {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(1440deg) scale(1.15); filter: drop-shadow(0 0 30px #d4b574) brightness(1.4); }
+  100% { transform: rotate(2880deg) scale(1.05); filter: drop-shadow(0 0 50px #ffffff); }
+}
+
+@keyframes spinMiddleInsane {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(-1800deg) scale(1.2); filter: drop-shadow(0 0 35px #3eb489) brightness(1.5); }
+  100% { transform: rotate(-3600deg) scale(1.08); filter: drop-shadow(0 0 60px #3eb489); }
+}
+
+@keyframes spinInnerInsane {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(2520deg) scale(1.3); filter: drop-shadow(0 0 45px #00f0ff) brightness(1.6); }
+  100% { transform: rotate(5040deg) scale(1.12); filter: drop-shadow(0 0 80px #ffffff); }
+}
+
+.dial-center-core span {
+  font: 700 13px "Cormorant Garamond", serif;
+  color: #f4eee1;
+  letter-spacing: 0.05em;
+}
+
+.core-insane-pulse {
+  animation: coreInsanePulse 1.5s ease-out forwards;
+  background: #d4b574 !important;
+  color: #071515 !important;
+  border-color: #ffffff !important;
+}
+
+@keyframes coreInsanePulse {
+  0% { transform: scale(1); box-shadow: 0 0 20px #d4b574; }
+  50% { transform: scale(1.6); box-shadow: 0 0 60px #ffffff, 0 0 100px #00f0ff; }
+  100% { transform: scale(2.2); box-shadow: 0 0 120px #ffffff, 0 0 200px #ffffff; }
+}
+
+/* Cosmic Light Beam Core Layer */
+.cosmic-light-beam {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, #fff6d6 30%, #00e5ff 60%, transparent 100%);
+  z-index: 100;
+  pointer-events: none;
+  animation: cosmicBeamBurst 1.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes cosmicBeamBurst {
+  0% {
+    width: 12px;
+    height: 12px;
+    opacity: 0;
+    box-shadow: 0 0 0 transparent;
+  }
+  30% {
+    opacity: 1;
+    width: 250px;
+    height: 250px;
+    box-shadow: 0 0 100px 40px rgba(255, 255, 255, 0.95), 0 0 200px 80px rgba(212, 181, 116, 0.85);
+  }
+  70% {
+    opacity: 1;
+    width: 2000px;
+    height: 2000px;
+    box-shadow: 0 0 300px 150px rgba(255, 255, 255, 1), 0 0 600px 300px rgba(0, 240, 255, 0.9);
+  }
+  100% {
+    opacity: 1;
+    width: 4000px;
+    height: 4000px;
+    background: #ffffff;
+    box-shadow: 0 0 1000px 500px #ffffff;
+  }
+}
+
+.beam-screen-wash {
+  background: radial-gradient(circle at 50% 50%, #ffffff 20%, rgba(212, 181, 116, 0.95) 70%, #071515 100%) !important;
+  animation: blindingFlash 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+.beam-screen-wash h2 {
+  color: #152625 !important;
+  text-shadow: 0 0 20px #ffffff, 0 0 40px #d4b574;
+}
+
+.beam-screen-wash .micro-label,
+.beam-screen-wash .unseal-sub {
+  color: #24423e !important;
+}
+
+.sparkle-pulse-icon {
+  color: #152625 !important;
+  animation: sparkleRotate 1s infinite linear;
+}
+
+@keyframes sparkleRotate {
+  from { transform: rotate(0deg) scale(1.2); }
+  to { transform: rotate(360deg) scale(1.5); }
+}
+
+@keyframes blindingFlash {
+  0% { opacity: 0; filter: brightness(1); }
+  40% { opacity: 1; filter: brightness(2.5); }
+  80% { opacity: 1; filter: brightness(3); }
+  100% { opacity: 1; filter: brightness(1); }
+}
+
+/* ── Footer Controls ─────────────────────────────────────────────────────── */
+
+.vault-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.vault-reset-btn,
+.vault-shortcut-btn {
+  background: transparent;
+  border: none;
+  color: #9ab4aa;
+  font: 600 10px "DM Mono", monospace;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 3px;
+
+}
+
+.vault-reset-btn:hover,
+.vault-shortcut-btn:hover {
+  color: #d4b574;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.vault-error-notice {
+  color: #e67474;
+  font: 600 11px "DM Mono", monospace;
+  margin-top: 12px;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+/* ── Unseal Modal / Celebration Banner ───────────────────────────────────── */
+
+.unsealed-banner {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(5, 16, 16, 0.94);
+  display: grid;
+  place-items: center;
+  backdrop-filter: blur(14px);
+  animation: fadeIn 0.4s ease;
+}
+
+.unsealed-content {
+  text-align: center;
+  color: #f4eee1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.unsealed-content svg {
+  color: #d4b574;
+  animation: pulse 1.5s infinite;
+}
+
+.unsealed-content h2 {
+  font: 600 48px/1 "Cormorant Garamond", serif;
+  color: #d4b574;
+  margin: 0;
+}
+
+.unseal-sub {
+  font: 500 14px/1.5 "Cormorant Garamond", serif;
+  color: #d4e2dc;
+  margin: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+

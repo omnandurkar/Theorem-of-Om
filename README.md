@@ -1,32 +1,34 @@
 # Theorem of Kemet
 
-Theorem of Kemet is Om Nandurkar’s evidence-aware digital field journal for ancient Egypt, mythology, archaeology, anomalies, and unresolved historical questions. It is an independent React, Express, tRPC, Drizzle, and Supabase PostgreSQL application prepared for Vercel.
+Theorem of Kemet is Om Nandurkar’s immersive Ancient Egypt field journal and article library. It is a **frontend-only React/Vite site** with cinematic motion, paper textures, page-turn reading, evidence boards, magnification, archive filtering, a geographic case map, and a local curator puzzle gate.
 
-## Run Locally
-
-Create a local `.env` from [ENVIRONMENT_TEMPLATE.md](./ENVIRONMENT_TEMPLATE.md), add your private Supabase values, then run:
+## Run locally
 
 ```bash
 pnpm install
-pnpm drizzle-kit migrate
 pnpm dev
 ```
 
-The local app runs at `http://localhost:3000`. The first curator puzzle/password interaction seeds the server-side curator credential. After entering Om’s desk, immediately change the initial password.
+The project does not require a database, server process, OAuth configuration, Supabase project, or runtime environment variables.
 
-## Validate and Build
+## Validate and build
 
 ```bash
 pnpm check
-pnpm test
 pnpm build
-pnpm start
+pnpm preview
 ```
 
-`pnpm build:client` produces the Vercel static client output at `dist/public`. The root `app.ts` exports the Express/tRPC API application for Vercel. For an external production launch, add `SUPABASE_DATABASE_URL`, `SUPABASE_DIRECT_URL`, `JWT_SECRET`, and `CURATOR_GATE_PASSWORD` to Vercel’s encrypted environment variables; never commit a populated `.env` file.
+The production output is written to `dist/public`.
 
-## Database and Hosting
+## Edit the journal
 
-Drizzle uses Supabase PostgreSQL through a transaction-mode pooler at runtime and a session-mode pooler for migrations. The project no longer relies on Manus OAuth or Manus storage at runtime. Static visual assets are committed under `client/public/assets`, and existing Google Drive image support remains an optional editor feature.
+All public article content is in `client/src/data/articles.json`. Edit the article objects, sections, paragraphs, images, and sources there. The adapter in `client/src/lib/staticJournal.ts` feeds the Journal, Case Index, article reader, evidence boards, and map. Read [FRONTEND_ONLY_GUIDE.md](./FRONTEND_ONLY_GUIDE.md) for the field reference and deployment instructions.
 
-See [MANUS_INDEPENDENCE_MIGRATION.md](./MANUS_INDEPENDENCE_MIGRATION.md) for the completed migration strategy and [PORTABLE_DEPLOYMENT.md](./PORTABLE_DEPLOYMENT.md) for the external handoff checklist.
+## Deployment
+
+Connect the repository to Vercel using the existing `vercel.json`. The build command is `pnpm build` and the output directory is `dist/public`. The site is static and needs no environment variables. GitHub Pages, Netlify, Cloudflare Pages, or any static host capable of serving Vite output can also host the generated files.
+
+## Important limitations
+
+The curator desk is a read-only preview in the static version because a browser cannot write changes into a deployed JSON bundle. Reader theory letters are stored only in the current browser’s local storage. To publish new material, edit `articles.json`, run the checks, and deploy a new build. The puzzle gate is a local editorial convenience, not server-grade security.

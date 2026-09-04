@@ -6,7 +6,7 @@ import { AnnotatedText } from "@/components/NotebookAnnotations";
 import { CaseEvidenceBoard } from "@/components/CaseEvidenceBoard";
 import { InvestigationIndex } from "@/components/InvestigationIndex";
 import { PageFooter, ReadingRail } from "@/components/SiteChrome";
-import { trpc } from "@/lib/trpc";
+import { getStaticEntry, getStaticRelatedEntries } from "@/lib/staticJournal";
 import { stickyNoteClassName } from "@/lib/stickyNote";
 import { DrivePolaroid } from "@/components/DrivePolaroid";
 import { CaseStamp } from "@/components/CaseStamp";
@@ -16,26 +16,22 @@ const statusLabel = (value: string) => value.replace(/\b\w/g, (letter) => letter
 
 export default function JournalEntry() {
   const { slug } = useParams<{ slug: string }>();
-  const { data: entry, isLoading } = trpc.journal.publicGet.useQuery({ slug });
-  const { data: allEntries = [] } = trpc.journal.publicList.useQuery();
+  const entry = getStaticEntry(slug);
   const [lens, setLens] = useState<"myth" | "archive">("archive");
   const [openSource, setOpenSource] = useState<number | null>(null);
-  const related = useMemo(() => {
-    const slugs = (entry?.relatedCaseSlugs || "").split(",").map((item) => item.trim()).filter(Boolean);
-    return allEntries.filter((item) => slugs.includes(item.slug));
-  }, [allEntries, entry?.relatedCaseSlugs]);
+  const related = useMemo(() => entry ? getStaticRelatedEntries(entry) : [], [entry]);
 
-  if (isLoading) return <main className="journal-entry-loading">Opening record…</main>;
   if (!entry) return <main className="journal-entry-loading"><FileWarning size={24} /><h1>This record is not on the public shelf.</h1><Link href="/journal">Return to the journal</Link></main>;
 
   const font = FONT_CATALOG.find((item) => item.id === entry.fontId)?.value || "Cormorant Garamond, serif";
   const wash = PALETTES.find((item) => item.id === entry.paletteId)?.value || "#f1ead8";
+  const isDarkWash = entry.paletteId === "ink" || entry.paletteId === "night" || entry.paletteId === "oxblood" || wash === "#1d3434" || wash === "#152625" || wash === "#3d1f1c" || wash?.toLowerCase().startsWith("#1") || wash?.toLowerCase().startsWith("#2") || wash?.toLowerCase().startsWith("#0");
   const style = { "--journal-entry-font": font, "--journal-entry-wash": wash } as CSSProperties;
   const evidenceWidth = `${Math.min(100, Math.max(0, entry.evidenceLevel ?? 50))}%`;
   const caseNumber = entry.caseNumber || `CASE ${String(entry.id).padStart(3, "0")}`;
   const noteClassName = stickyNoteClassName(entry.stickyTreatment, entry.stickyPlacement);
 
-  return <main className="journal-entry-page" style={style}>
+  return <main className={`journal-entry-page ${isDarkWash ? "is-dark-wash" : ""}`} data-dark-bg={isDarkWash ? "true" : undefined} style={style}>
     <ReadingRail current={`${caseNumber} / ${entry.caseStatus.toUpperCase()}`} />
     <ArchiveBreadcrumb items={[{ label: "Journal", href: "/journal" }, { label: entry.category?.name || "Case files", href: "/index" }, { label: caseNumber }]} />
     <section className="journal-entry-hero">

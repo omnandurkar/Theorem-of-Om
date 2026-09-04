@@ -25,6 +25,7 @@ import InvestigationMapPage from "@/pages/InvestigationMapPage";
 import EditorReaderPreview from "@/pages/EditorReaderPreview";
 import OmGuide from "@/pages/OmGuide";
 import FieldFolio from "@/pages/FieldFolio";
+import OmEditorPage from "@/pages/OmEditorPage";
 import { InkCursor } from "@/components/InkCursor";
 import { ArchiveLoader } from "@/components/ArchiveLoader";
 import NotFound from "@/pages/NotFound";
@@ -42,6 +43,7 @@ function Router() {
           <Route path="/case-file-template" component={CaseFileTemplate} />
           <Route path="/journal/:slug" component={JournalEntry} />
           <Route path="/om-dashboard" component={AdminDashboard} />
+          <Route path="/om-editor" component={OmEditorPage} />
           <Route path="/submit-theory" component={SubmitTheory} />
           <Route path="/map" component={InvestigationMapPage} />
           <Route path="/om-preview" component={EditorReaderPreview} />

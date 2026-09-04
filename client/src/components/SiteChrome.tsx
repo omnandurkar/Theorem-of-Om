@@ -3,7 +3,7 @@
  * and a physical reading rail. Use dark ink, thin rules, one strong cartouche mark, and restrained motion.
  */
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, MousePointer2, Search, X } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Globe, Menu, MousePointer2, Search, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { readCustomCursorPreference, writeCustomCursorPreference } from "@/lib/cursorPreference";
@@ -19,59 +19,77 @@ const NAV = [
 ] as const;
 
 export function SiteHeader() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [location, setLocation] = useLocation();
-  const currentPath = location.split("?")[0];
-  const focusArchiveSearch = () => {
-    if (currentPath === "/archive") {
-      document.getElementById("archive-search")?.focus();
-      return;
-    }
-    setLocation("/archive?focus=search");
+  const [location] = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [cursorPref, setCursorPref] = useState<boolean>(() => readCustomCursorPreference());
+
+  const toggleCursor = () => {
+    const next = !cursorPref;
+    setCursorPref(next);
+    writeCustomCursorPreference(next);
   };
 
   return (
     <header className="site-header">
-      <Link href="/" className="brand-lockup" aria-label="Theorem of Kemet home">
-        <img src="/assets/kemet-mark.webp" alt="" className="brand-mark" />
+      <Link href="/" className="brand-lockup">
+        <img src="/assets/kemet-mark.webp" alt="Theorem of Kemet emblem" className="brand-mark" />
         <span className="brand-type">
-          <strong>THEOREM</strong>
-          <small>OF KEMET</small>
+          <strong>Theorem of Kemet</strong>
+          <small>FIELD NOTES · OMN</small>
         </span>
       </Link>
 
-      <nav className="desktop-nav" aria-label="Primary navigation">
-        {NAV.map(([label, href]) => (
-          <Link key={href} href={href} className={currentPath === href ? "nav-link active" : "nav-link"}>
-            {label}
-          </Link>
-        ))}
+      <nav className="desktop-nav">
+        {NAV.map(([label, href]) => {
+          const isActive = location === href || location.startsWith(href);
+          return (
+            <Link key={href} href={href} className={`nav-link ${isActive ? "active" : ""}`}>
+              {label}
+            </Link>
+          );
+        })}
       </nav>
 
       <div className="header-actions">
-        <CursorPreferenceControl />
-        <button className="glyph-button" aria-label="Search the archive" onClick={focusArchiveSearch}>
-          <Search size={17} strokeWidth={1.8} />
+        <button
+          type="button"
+          className="cursor-preference-control"
+          aria-pressed={cursorPref}
+          onClick={toggleCursor}
+          title="Toggle custom field cursor"
+        >
+          <MousePointer2 size={13} />
+          <span>{cursorPref ? "Field Cursor ON" : "Cursor Normal"}</span>
         </button>
-        <button className="menu-trigger" aria-label="Open navigation" onClick={() => setIsOpen((open) => !open)}>
-          {isOpen ? <X size={20} /> : <Menu size={21} />}
+        <Link href="/archive" className="glyph-button" aria-label="Search archive">
+          <Search size={16} />
+        </Link>
+
+        <button
+          type="button"
+          className="menu-trigger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-expanded={mobileOpen}
+          aria-label="Toggle navigation menu"
+        >
+          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
           <span>Index</span>
         </button>
       </div>
 
       <AnimatePresence>
-        {isOpen && (
+        {mobileOpen && (
           <motion.div
             className="mobile-menu"
-            initial={{ opacity: 0, y: -12 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.2 }}
           >
-            {NAV.map(([label, href], index) => (
-              <motion.div key={href} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.05 * index }}>
-                <Link href={href} onClick={() => setIsOpen(false)}>{label}</Link>
-              </motion.div>
+            {NAV.map(([label, href]) => (
+              <Link key={href} href={href} onClick={() => setMobileOpen(false)}>
+                {label}
+              </Link>
             ))}
           </motion.div>
         )}
@@ -80,13 +98,7 @@ export function SiteHeader() {
   );
 }
 
-function CursorPreferenceControl() {
-  const [enabled, setEnabled] = useState(readCustomCursorPreference);
-  const toggle = () => { const next = !enabled; setEnabled(next); writeCustomCursorPreference(next); };
-  return <button type="button" className="cursor-preference-control" aria-pressed={enabled} aria-label={`${enabled ? "Disable" : "Enable"} custom field cursor`} title={`${enabled ? "Disable" : "Enable"} custom field cursor`} onClick={toggle}><MousePointer2 size={15} strokeWidth={1.8} /><span>{enabled ? "Field cursor" : "System cursor"}</span></button>;
-}
-
-export function ReadingRail({ current = "ARCHIVE / 2026" }: { current?: string }) {
+export function ReadingRail({ current }: { current: string }) {
   return (
     <aside className="reading-rail" aria-hidden="true">
       <span className="rail-rule" />
@@ -106,8 +118,28 @@ export function PageFooter() {
       <div>
         <p className="micro-label">THEOREM OF KEMET · EDITED IN THE PRESENT</p>
         <p className="footer-line">An independent history reading room by <strong>Om Nandurkar</strong>.</p>
+        <div className="footer-external-links">
+          <a href="https://www.omnandurkar.space" target="_blank" rel="noopener noreferrer" className="footer-ext-link" title="Om's Personal Portfolio">
+            <Globe size={13} />
+            <span>www.omnandurkar.space</span>
+            <ArrowUpRight size={12} />
+          </a>
+          <span className="footer-link-divider">·</span>
+          <a href="https://archive.omnandurkar.space" target="_blank" rel="noopener noreferrer" className="footer-ext-link" title="Creator Studios Archive">
+            <ExternalLink size={13} />
+            <span>Creator Studios · archive.omnandurkar.space</span>
+            <ArrowUpRight size={12} />
+          </a>
+        </div>
       </div>
-      <div className="footer-policy">Reader-first archive · No claims without a question.</div>
+      <div className="footer-policy">
+        <div>Reader-first archive · No claims without a question.</div>
+        <div className="footer-creator-credits">
+          <a href="https://www.omnandurkar.space" target="_blank" rel="noopener noreferrer">Portfolio</a>
+          {" · "}
+          <a href="https://archive.omnandurkar.space" target="_blank" rel="noopener noreferrer">Creator Studios</a>
+        </div>
+      </div>
     </footer>
   );
 }

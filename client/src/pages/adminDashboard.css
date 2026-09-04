@@ -1,0 +1,462 @@
+/* ── Om's Desk Admin Dashboard — Ultra Readability & High Contrast Theme ────── */
+
+.static-admin-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  background: #0b1716 !important;
+  color: #f4eee1 !important;
+  font-family: "Manrope", sans-serif;
+}
+
+/* ── Sidebar ───────────────────────────────────────────────────────────── */
+
+.static-admin-page .admin-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: #060e0d !important;
+  border-right: 1px solid rgba(212, 181, 116, 0.25) !important;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.static-admin-page .admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #ffffff !important;
+  border-bottom: 1px solid rgba(212, 181, 116, 0.2);
+  padding-bottom: 20px;
+}
+
+.static-admin-page .admin-brand span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  background: #143532;
+  border: 1px solid #d4b574;
+  color: #d4b574 !important;
+  font: 700 13px "DM Mono", monospace;
+  border-radius: 4px;
+}
+
+.static-admin-page .admin-brand strong {
+  font: 700 15px/1.2 "Cormorant Garamond", serif !important;
+  letter-spacing: 0.04em;
+  color: #ffffff !important;
+}
+
+.static-admin-page .admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.static-admin-page .admin-nav button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  color: #a4b8af !important;
+  font: 600 11px "DM Mono", monospace !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: left;
+}
+
+.static-admin-page .admin-nav button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff !important;
+  border-color: rgba(212, 181, 116, 0.3);
+}
+
+.static-admin-page .admin-nav button.active {
+  background: #173b38 !important;
+  border-color: #d4b574 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.static-admin-page .admin-sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(212, 181, 116, 0.2);
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.static-admin-page .admin-sidebar-footer .micro-label {
+  color: #d4b574 !important;
+  font: 700 10px "DM Mono", monospace !important;
+  letter-spacing: 0.12em !important;
+}
+
+.static-admin-page .admin-sidebar-footer strong {
+  font: 700 22px/1 "Cormorant Garamond", serif !important;
+  color: #ffffff !important;
+}
+
+.static-admin-page .admin-sidebar-footer small {
+  font: 500 10px "DM Mono", monospace !important;
+  color: #9ab4aa !important;
+}
+
+.static-admin-page .curator-lock {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 9px 14px;
+  background: rgba(230, 116, 116, 0.12);
+  border: 1px solid rgba(230, 116, 116, 0.4);
+  color: #ff8a8a !important;
+  font: 700 10px "DM Mono", monospace !important;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.static-admin-page .curator-lock:hover {
+  background: rgba(230, 116, 116, 0.25);
+  color: #ffffff !important;
+}
+
+.static-admin-page .admin-sidebar-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  color: #a4b8af !important;
+  font: 500 11px "DM Mono", monospace !important;
+  text-decoration: none;
+}
+
+.static-admin-page .admin-sidebar-footer a:hover {
+  color: #d4b574 !important;
+}
+
+/* ── Main Dashboard Area ─────────────────────────────────────────────────── */
+
+.static-admin-page .admin-main {
+  padding: 44px 54px 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.static-admin-page .admin-topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(212, 181, 116, 0.3) !important;
+  padding-bottom: 28px;
+}
+
+.static-admin-page .admin-topbar .micro-label {
+  color: #d4b574 !important;
+  font: 700 11px "DM Mono", monospace !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase;
+}
+
+.static-admin-page .admin-topbar h1 {
+  margin: 8px 0 0 !important;
+  font: 700 clamp(40px, 4.5vw, 62px)/0.9 "Cormorant Garamond", serif !important;
+  color: #ffffff !important;
+  letter-spacing: -0.02em !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.ade-new-case-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: #d4b574 !important;
+  color: #0b1716 !important;
+  font: 700 12px "DM Mono", monospace !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+  border: 1px solid #d4b574 !important;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 4px 16px rgba(212, 181, 116, 0.3);
+}
+
+.ade-new-case-btn:hover {
+  background: #f0d598 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212, 181, 116, 0.45);
+}
+
+/* ── Overview & Stat Cards ───────────────────────────────────────────────── */
+
+.static-admin-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.admin-stat-grid > div {
+  background: #112322 !important;
+  border: 1px solid rgba(212, 181, 116, 0.3) !important;
+  padding: 26px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.admin-stat-grid > div:hover {
+  transform: translateY(-4px);
+  border-color: #d4b574 !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 181, 116, 0.15);
+}
+
+.admin-stat-grid svg {
+  color: #d4b574 !important;
+}
+
+.admin-stat-grid strong {
+  font: 700 52px/1 "Cormorant Garamond", serif !important;
+  color: #ffffff !important;
+  letter-spacing: -0.03em;
+}
+
+.admin-stat-grid span {
+  font: 700 11px "DM Mono", monospace !important;
+  color: #a4b8af !important;
+  letter-spacing: 0.08em !important;
+}
+
+/* ── Panels & Notice Cards ──────────────────────────────────────────────── */
+
+.static-admin-panel {
+  background: #112322 !important;
+  border: 1px solid rgba(212, 181, 116, 0.3) !important;
+  padding: 36px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.static-admin-panel .micro-label {
+  color: #d4b574 !important;
+  font: 700 11px "DM Mono", monospace !important;
+  letter-spacing: 0.12em !important;
+}
+
+.static-admin-panel h2 {
+  margin: 10px 0 !important;
+  font: 700 40px/1 "Cormorant Garamond", serif !important;
+  color: #ffffff !important;
+}
+
+.static-admin-panel h2 em {
+  color: #d4b574 !important;
+  font-style: normal;
+}
+
+.static-admin-panel p {
+  color: #e9ebd8 !important;
+  font-size: 15px !important;
+  line-height: 1.75 !important;
+  max-width: 720px;
+  margin: 0;
+}
+
+.static-admin-panel ol {
+  margin: 14px 0 0;
+  padding-left: 24px;
+  color: #e9ebd8 !important;
+  font-size: 14px !important;
+  line-height: 1.85 !important;
+}
+
+.static-admin-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: rgba(212, 181, 116, 0.1) !important;
+  border: 1px solid rgba(212, 181, 116, 0.35) !important;
+  padding: 18px 24px;
+  border-radius: 6px;
+  color: #d4b574 !important;
+}
+
+.static-admin-notice svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.static-admin-notice p {
+  margin: 0;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  line-height: 1.6;
+}
+
+.static-admin-notice code {
+  color: #d4b574 !important;
+  font: 700 12px "DM Mono", monospace !important;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* ── Entry Lists (Case files & Shelves) ─────────────────────────────────── */
+
+.static-entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.static-entry-list a,
+.static-entry-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #ffffff !important;
+  transition: all 0.2s ease;
+}
+
+.static-entry-list a:hover {
+  background: rgba(212, 181, 116, 0.12) !important;
+  border-color: #d4b574 !important;
+  transform: translateX(6px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.static-entry-list span {
+  font: 700 12px "DM Mono", monospace !important;
+  color: #d4b574 !important;
+}
+
+.static-entry-list strong {
+  font: 700 22px "Cormorant Garamond", serif !important;
+  color: #ffffff !important;
+}
+
+.static-entry-list small {
+  font: 600 12px "DM Mono", monospace !important;
+  color: #a4b8af !important;
+}
+
+/* ── Reader Letter Cards ─────────────────────────────────────────────────── */
+
+.admin-letter-card {
+  background: #0c1817 !important;
+  border: 1px solid rgba(212, 181, 116, 0.3) !important;
+  padding: 24px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.admin-letter-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font: 12px "DM Mono", monospace;
+}
+
+.admin-letter-meta span {
+  color: #a4b8af !important;
+  font-weight: 600;
+}
+
+.admin-letter-meta strong {
+  font: 700 20px "Cormorant Garamond", serif !important;
+  color: #ffffff !important;
+}
+
+.admin-letter-body {
+  font: 500 16px/1.65 "Cormorant Garamond", serif !important;
+  font-style: italic;
+  color: #f4eee1 !important;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 12px 16px;
+  border-left: 3px solid #d4b574;
+  border-radius: 2px;
+}
+
+.admin-letter-convert-btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(62, 180, 137, 0.12) !important;
+  border: 1px solid rgba(62, 180, 137, 0.4) !important;
+  color: #4edba7 !important;
+  font: 700 11px "DM Mono", monospace !important;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-letter-convert-btn:hover {
+  background: #3eb489 !important;
+  color: #0b1716 !important;
+  box-shadow: 0 4px 14px rgba(62, 180, 137, 0.3);
+}
+
+.static-admin-empty {
+  padding: 40px;
+  text-align: center;
+  color: #a4b8af !important;
+  font: 600 14px "DM Mono", monospace !important;
+}
+
+/* ── Responsive Overrides ────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .static-admin-page {
+    grid-template-columns: 1fr;
+  }
+
+  .static-admin-page .admin-sidebar {
+    position: relative;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .admin-stat-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

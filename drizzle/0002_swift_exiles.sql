@@ -1,2 +1,0 @@
-ALTER TABLE `journal_entries` ADD `stickyTreatment` varchar(32) DEFAULT 'brass-pin' NOT NULL;--> statement-breakpoint
-ALTER TABLE `journal_entries` ADD `stickyPlacement` varchar(32) DEFAULT 'margin' NOT NULL;

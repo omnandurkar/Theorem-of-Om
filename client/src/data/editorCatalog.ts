@@ -9,17 +9,96 @@ export const FONT_CATALOG: StudioOption[] = [
 ].map(([id, label, value]) => ({ id, label, value }));
 
 export const PALETTES: StudioOption[] = [
-  { id: "limestone", label: "Limestone paper", value: "#f1ead8" }, { id: "lapis", label: "Lapis wash", value: "#d4e0df" }, { id: "sage", label: "Watercolour sage", value: "#d4ddd1" }, { id: "rose", label: "Desert rose", value: "#e3c6bd" }, { id: "lilac", label: "Dusk lilac", value: "#d7cedd" }, { id: "ochre", label: "Sun-bleached ochre", value: "#e1d0a8" }, { id: "mist", label: "Nile mist", value: "#c8ddda" }, { id: "ink", label: "Astronomical ink", value: "#1d3434" }
+  { id: "limestone", label: "Limestone paper", value: "#f1ead8" },
+  { id: "papyrus", label: "Ancient papyrus", value: "#e8dec2" },
+  { id: "lapis", label: "Lapis wash", value: "#d4e0df" },
+  { id: "ink", label: "Astronomical ink", value: "#1d3434" },
+  { id: "oxblood", label: "Faded oxblood", value: "#3d1f1c" },
+  { id: "sage", label: "Watercolour sage", value: "#d4ddd1" },
+  { id: "sand", label: "Desert sand", value: "#e6d5b8" },
+  { id: "night", label: "Deep night", value: "#152625" }
 ];
 
 export const SYMBOLS: StudioOption[] = [
-  { id: "eye", label: "𓂀 · Kemet eye", value: "𓂀" }, { id: "ankh", label: "𓋹 · ankh form", value: "𓋹" }, { id: "scarab", label: "𓆣 · scarab form", value: "𓆣" }, { id: "serpent", label: "𓆓 · serpent form", value: "𓆓" }, { id: "djed", label: "𓊽 · djed pillar", value: "𓊽" }, { id: "was", label: "𓍿 · staff form", value: "𓍿" }, { id: "sun-disc", label: "𓇳 · sun-disc form", value: "𓇳" }, { id: "lotus", label: "𓆭 · lotus form", value: "𓆭" }, { id: "falcon", label: "𓅃 · falcon form", value: "𓅃" }, { id: "jackal", label: "𓃭 · jackal form", value: "𓃭" }, { id: "cat", label: "𓃠 · cat form", value: "𓃠" }, { id: "star", label: "✦ · archive star", value: "✦" }, { id: "moon", label: "☾ · lunar mark", value: "☾" }, { id: "sun", label: "☉ · solar mark", value: "☉" }, { id: "greek", label: "Ω · Greek threshold", value: "Ω" }, { id: "coptic", label: "Ⲧ · Coptic form", value: "Ⲧ" }, { id: "arabic", label: "۞ · Arabic rosette", value: "۞" }, { id: "runic", label: "ᛟ · runic echo", value: "ᛟ" }, { id: "alchemical", label: "☿ · alchemical sign", value: "☿" }, { id: "astral", label: "⟡ · astral mark", value: "⟡" }
+  { id: "eye-of-horus", label: "𓂀 · Kemet eye", value: "𓂀" },
+  { id: "ankh", label: "𓋹 · ankh form", value: "𓋹" },
+  { id: "scarab", label: "𓆣 · scarab form", value: "𓆣" },
+  { id: "serpent", label: "𓆓 · serpent form", value: "𓆓" },
+  { id: "djed", label: "𓊽 · djed pillar", value: "𓊽" },
+  { id: "was", label: "𓍿 · staff form", value: "𓍿" },
+  { id: "sun-disc", label: "𓇳 · sun-disc form", value: "𓇳" },
+  { id: "lotus", label: "𓆭 · lotus form", value: "𓆭" },
+  { id: "falcon", label: "𓅃 · falcon form", value: "𓅃" },
+  { id: "jackal", label: "𓃭 · jackal form", value: "𓃭" },
+  { id: "cat", label: "𓃠 · cat form", value: "𓃠" },
+  { id: "star", label: "✦ · archive star", value: "✦" },
+  { id: "moon", label: "☾ · lunar mark", value: "☾" },
+  { id: "sun", label: "☉ · solar mark", value: "☉" },
+  { id: "greek", label: "Ω · Greek threshold", value: "Ω" },
+  { id: "coptic", label: "Ⲧ · Coptic form", value: "Ⲧ" },
+  { id: "arabic", label: "۞ · Arabic rosette", value: "۞" },
+  { id: "runic", label: "ᛟ · runic echo", value: "ᛟ" },
+  { id: "alchemical", label: "☿ · alchemical sign", value: "☿" },
+  { id: "astral", label: "⟡ · astral mark", value: "⟡" }
 ];
 
 export const VECTOR_MARKS: StudioOption[] = [
-  { id: "grid", label: "Survey grid", value: "grid" }, { id: "orbit", label: "Orbital geometry", value: "orbit" }, { id: "web", label: "Spider web", value: "web" }, { id: "pyramid", label: "Pyramid line", value: "pyramid" }, { id: "constellation", label: "Constellation trace", value: "constellation" }, { id: "sigil", label: "Field sigil", value: "sigil" }
+  { id: "grid", label: "Survey grid", value: "grid" },
+  { id: "orbit", label: "Orbital geometry", value: "orbit" },
+  { id: "web", label: "Spider web", value: "web" },
+  { id: "pyramid", label: "Pyramid line", value: "pyramid" },
+  { id: "constellation", label: "Constellation trace", value: "constellation" },
+  { id: "sigil", label: "Field sigil", value: "sigil" }
 ];
 
 export const STICKER_MOTIFS: StudioOption[] = [
-  { id: "scarab-eye", label: "Scarab & eye", value: "scarab-eye" }, { id: "spider", label: "Arachnid study", value: "spider" }, { id: "arrowhead", label: "Arrowhead tag", value: "arrowhead" }, { id: "butterfly", label: "Pinned wing", value: "butterfly" }, { id: "astrolabe", label: "Moon compass", value: "astrolabe" }, { id: "sealed-book", label: "Sealed field book", value: "sealed-book" }
+  { id: "scarab-eye", label: "Scarab & eye", value: "scarab-eye" },
+  { id: "torn-label", label: "Torn paper label", value: "torn-label" },
+  { id: "red-thread", label: "Red binding thread", value: "red-thread" },
+  { id: "celestial-grid", label: "Celestial grid", value: "celestial-grid" },
+  { id: "specimen-tag", label: "Field specimen tag", value: "specimen-tag" },
+  { id: "warning-triangle", label: "Anomaly warning", value: "warning-triangle" },
+  { id: "moth", label: "Pinned moth", value: "moth" },
+  { id: "spider", label: "Arachnid study", value: "spider" },
+  { id: "pyramid", label: "Pyramid outline", value: "pyramid" },
+  { id: "moon", label: "Phase of moon", value: "moon" },
+  { id: "evidence-pin", label: "Brass pin", value: "evidence-pin" }
 ];
+
+export const STAMP_KINDS: StudioOption[] = [
+  { id: "auto", label: "Auto (Status based)", value: "AUTO" },
+  { id: "top-secret", label: "CLASSIFIED", value: "CLASSIFIED" },
+  { id: "unverified", label: "UNVERIFIED", value: "UNVERIFIED" },
+  { id: "declassified", label: "DECLASSIFIED", value: "DECLASSIFIED" },
+  { id: "case-closed", label: "CASE CLOSED", value: "CASE CLOSED" },
+  { id: "none", label: "No Stamp", value: "NONE" }
+];
+
+export const STICKY_TREATMENTS: StudioOption[] = [
+  { id: "brass-pin", label: "Brass pin", value: "brass-pin" },
+  { id: "top-tape", label: "Top tape", value: "top-tape" },
+  { id: "crossed-tape", label: "Crossed tape", value: "crossed-tape" },
+  { id: "thread-and-pin", label: "Thread & pin", value: "thread-and-pin" }
+];
+
+export const STICKY_PLACEMENTS: StudioOption[] = [
+  { id: "margin", label: "Right margin", value: "margin" },
+  { id: "left-lean", label: "Left tilt", value: "left-lean" },
+  { id: "right-lean", label: "Right tilt", value: "right-lean" }
+];
+
+export const CASE_STATUSES: StudioOption[] = [
+  { id: "documented", label: "Documented", value: "documented" },
+  { id: "disputed", label: "Disputed", value: "disputed" },
+  { id: "unverified", label: "Unverified", value: "unverified" },
+  { id: "ongoing", label: "Ongoing", value: "ongoing" },
+  { id: "unresolved", label: "Unresolved", value: "unresolved" }
+];
+
+export const EVIDENCE_MODES: StudioOption[] = [
+  { id: "material", label: "Material record", value: "Material record" },
+  { id: "myth", label: "Cultural myth", value: "Cultural myth" },
+  { id: "celestial", label: "Celestial reading", value: "Celestial reading" },
+  { id: "fragment", label: "Archive fragment", value: "Archive fragment" }
+];
+
