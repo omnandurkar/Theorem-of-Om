@@ -229,10 +229,11 @@ const PASS_NAMES = [
 
 type Props = {
   onBack?: () => void;
+  onLock?: () => void;
   initialDraft?: Partial<FullDraftState>;
 };
 
-export function OmEditorShell({ onBack, initialDraft }: Props) {
+export function OmEditorShell({ onBack, onLock, initialDraft }: Props) {
   const [pass, setPass] = useState(0); // 0..3
   const [draft, setDraft] = useState<FullDraftState>(() => {
     try {
@@ -546,6 +547,12 @@ export function OmEditorShell({ onBack, initialDraft }: Props) {
             <Download size={13} /> Export JSON
           </button>
 
+          {onLock && (
+            <button type="button" className="rail-lock-btn" onClick={onLock} title="Lock Sanctum Gate">
+              <LockKeyhole size={13} /> Lock Desk
+            </button>
+          )}
+
           {onBack && (
             <button type="button" className="rail-back-btn" onClick={onBack}>
               <ArrowLeft size={13} /> Back to dashboard
@@ -568,6 +575,12 @@ export function OmEditorShell({ onBack, initialDraft }: Props) {
               <span className={`status-dot ${dirty ? "dirty" : "saved"}`} />
               <span>{dirty ? "Unsaved edits" : lastSaved ? `Saved at ${lastSaved}` : "Saved locally"}</span>
             </div>
+
+            {onLock && (
+              <button type="button" className="desk-btn lock-sanctum-btn" onClick={onLock} title="Lock Sanctum Gate immediately">
+                <LockKeyhole size={14} /> Lock Desk
+              </button>
+            )}
 
             <button type="button" className="desk-btn secondary" onClick={() => patch("date", draft.date)} title="Save draft locally">
               <Save size={14} /> Save locally

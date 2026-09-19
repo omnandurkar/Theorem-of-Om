@@ -5,13 +5,14 @@ import { CuratorPuzzleGate } from "@/components/CuratorPuzzleGate";
 import { PageFooter } from "@/components/SiteChrome";
 import { OmEditorShell } from "@/components/OmEditorShell";
 import { staticCategories, staticJournalEntries } from "@/lib/staticJournal";
+import { useSanctumLock } from "@/lib/useSanctumLock";
 import "./adminDashboard.css";
 
 type NavPanel = "overview" | "entries" | "shelves" | "letters";
 type ReaderLetter = { readerName: string; theory: string; submittedAt: string };
 
 export default function AdminDashboard() {
-  const [unlocked, setUnlocked] = useState(false);
+  const { unlocked, unlock, lock } = useSanctumLock();
   const [active, setActive] = useState<NavPanel>("overview");
   const [drafting, setDrafting] = useState(false);
   const [draftSeed, setDraftSeed] = useState<{ excerpt?: string; keyQuestion?: string } | undefined>(undefined);
@@ -24,13 +25,14 @@ export default function AdminDashboard() {
     }
   }, []);
 
-  if (!unlocked) return <CuratorPuzzleGate onUnlocked={() => setUnlocked(true)} />;
+  if (!unlocked) return <CuratorPuzzleGate onUnlocked={() => { unlock(); setDrafting(true); }} />;
 
   // ── Draft editor mode ───────────────────────────────────────────────────
   if (drafting) {
     return (
       <OmEditorShell
         onBack={() => { setDrafting(false); setDraftSeed(undefined); }}
+        onLock={lock}
         initialDraft={draftSeed}
       />
     );
@@ -60,7 +62,7 @@ export default function AdminDashboard() {
           <span className="micro-label">STATIC CURATOR DESK</span>
           <strong>Om Nandurkar</strong>
           <small>DRAFT / EXPORT / PUBLISH</small>
-          <button className="curator-lock" onClick={() => setUnlocked(false)}><LockKeyhole size={14} /> Lock desk</button>
+          <button className="curator-lock" onClick={lock}><LockKeyhole size={14} /> Lock desk</button>
           <Link href="/journal"><ChevronLeft size={14} /> Public journal</Link>
         </div>
       </aside>

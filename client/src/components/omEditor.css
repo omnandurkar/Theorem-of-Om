@@ -247,6 +247,29 @@
   color: #f4eee1;
 }
 
+.desk-btn.lock-sanctum-btn {
+  background: rgba(212, 181, 116, 0.12);
+  color: #d4b574;
+  border: 1px solid rgba(212, 181, 116, 0.35);
+}
+
+.desk-btn.lock-sanctum-btn:hover {
+  background: #d4b574;
+  color: #071515;
+  box-shadow: 0 0 12px rgba(212, 181, 116, 0.4);
+}
+
+.rail-lock-btn {
+  color: #d4b574 !important;
+  font-weight: 600 !important;
+  margin-top: 4px;
+}
+
+.rail-lock-btn:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px #d4b574;
+}
+
 .import-btn-label {
   margin: 0;
 }

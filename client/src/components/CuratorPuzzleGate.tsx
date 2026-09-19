@@ -25,6 +25,7 @@ export function CuratorPuzzleGate({ onUnlocked }: { onUnlocked: () => void }) {
   const [unsealing, setUnsealing] = useState(false);
   const [isInsaneSpinning, setIsInsaneSpinning] = useState(false);
   const [lightBeamActive, setLightBeamActive] = useState(false);
+  const [showCrypticHint, setShowCrypticHint] = useState(false);
 
   // ── Mode 1: Ring Dial State (Rotations in degrees) ──────────────────────────
   const [outerAngle, setOuterAngle] = useState(180); // Target: 0 (Orion at Top)
@@ -83,25 +84,29 @@ export function CuratorPuzzleGate({ onUnlocked }: { onUnlocked: () => void }) {
     }
   };
 
-  // Trigger insane dial spin, cosmic light beam, and open Personal Edit Room
+  // Trigger insane dial spin (2.5s duration), then cosmic light beam, then open Personal Edit Room
   const triggerInsaneUnlock = () => {
-    setUnsealing(true);
     setIsInsaneSpinning(true);
 
-    // Spin dial angles insanely
-    setOuterAngle((prev) => prev + 2160);
-    setMiddleAngle((prev) => prev - 2880);
-    setInnerAngle((prev) => prev + 3600);
+    // 1. Spin dial angles insanely on the stage right in front of the user
+    setOuterAngle((prev) => prev + 3600);
+    setMiddleAngle((prev) => prev - 4320);
+    setInnerAngle((prev) => prev + 5400);
 
-    // Activate light beam after initial spin acceleration
+    // 2. Activate cosmic light beam supernova core burst after 2.0 seconds of spinning
     setTimeout(() => {
       setLightBeamActive(true);
-    }, 600);
+    }, 2000);
 
-    // Complete transition to Personal Edit Room
+    // 3. Flash full-screen blinding light wash & unsealed celebration banner at 2.5s
+    setTimeout(() => {
+      setUnsealing(true);
+    }, 2500);
+
+    // 4. Complete transition and open Om's Personal Edit Room (~3.8s total)
     setTimeout(() => {
       onUnlocked();
-    }, 2200);
+    }, 3800);
   };
 
   // ⌘/Ctrl + K shortcut for password bypass
@@ -131,15 +136,9 @@ export function CuratorPuzzleGate({ onUnlocked }: { onUnlocked: () => void }) {
     <main className="puzzle-gate-v2">
       <div className="puzzle-stars-bg" />
 
-      {/* Prominent Curator Plate featuring Om Nandurkar */}
-      <div className="om-curator-header-badge">
-        <span className="badge-seal">𓂀</span>
-        <div className="badge-text">
-          <small>FOUNDER &amp; CHIEF KEEPER</small>
-          <strong>OM NANDURKAR</strong>
-          <span className="badge-sub">DESK SANCTUM VAULT</span>
-        </div>
-        <span className="badge-seal">𓋹</span>
+      {/* Minimal Curator Tag */}
+      <div className="om-minimal-curator-tag">
+        <span>𓋹</span> KEEPER &middot; OM NANDURKAR
       </div>
 
       {/* Mode Switcher Tabs */}
@@ -177,10 +176,49 @@ export function CuratorPuzzleGate({ onUnlocked }: { onUnlocked: () => void }) {
              <>Align the <em>Sacred Relics</em></>}
           </h1>
           <p className="vault-instruction">
-            {mode === "ring" ? "Rotate outer, middle, and inner rings to align with 12 o'clock axis to trigger Om's sanctum beam." :
+            {mode === "ring" ? "Rotate the celestial rings to align the keeper's secret axis." :
              mode === "constellation" ? "Trace the 4 stars of Orion's Belt and Sphinx alignment on the sky matrix." :
              "Select the 4 hieroglyphic tablets in keeper's order to unseal Om's personal edit room."}
           </p>
+
+          {/* Clickable Cryptic Hint Symbol */}
+          <div className="cryptic-hint-container">
+            <button
+              type="button"
+              className={`cryptic-hint-symbol-btn ${showCrypticHint ? "active" : ""}`}
+              onClick={() => setShowCrypticHint(!showCrypticHint)}
+              title="Reveal Keeper's Riddle Clue"
+            >
+              <Sparkles size={14} />
+              <span>{showCrypticHint ? "Close Riddle Oracle" : "𓋹 Reveal Keeper's Riddle Clue"}</span>
+            </button>
+
+            {showCrypticHint && (
+              <div className="cryptic-hint-popover">
+                <div className="hint-popover-header">
+                  <span className="riddle-glyph">𓂀</span>
+                  <div className="hint-header-titles">
+                    <span className="micro-label">CURATOR ORACLE</span>
+                    <strong>CELESTIAL RIDDLE</strong>
+                  </div>
+                  <span className="riddle-glyph">𓋹</span>
+                </div>
+
+                <div className="riddle-scroll-body">
+                  <p className="riddle-verse">
+                    &ldquo;Three celestial wheels guard Om&apos;s field station.<br />
+                    Turn the hunter star to midnight above the laser,<br />
+                    raise the sacred pillar of stability at the top,<br />
+                    and place the lapis lazuli stone where the pointer shines.&rdquo;
+                  </p>
+                </div>
+
+                <div className="riddle-popover-footer">
+                  <small>&mdash; Recorded in the Field Dossier by Om Nandurkar</small>
+                </div>
+              </div>
+            )}
+          </div>
         </header>
 
         {/* ── MODE 1: Rotational Celestial Ring Vault ── */}
@@ -217,8 +255,8 @@ export function CuratorPuzzleGate({ onUnlocked }: { onUnlocked: () => void }) {
                 <div className="ring-node pos-left">Ink</div>
               </div>
 
-              <div className={`dial-center-core ${isInsaneSpinning ? "core-insane-pulse" : ""}`}>
-                <span>OM</span>
+              <div className={`dial-center-core ${isInsaneSpinning ? "core-insane-pulse" : ""}`} title="Sanskrit Om Core">
+                <span className="sanskrit-om-symbol">ॐ</span>
               </div>
             </div>
 
@@ -231,9 +269,6 @@ export function CuratorPuzzleGate({ onUnlocked }: { onUnlocked: () => void }) {
               </button>
               <button type="button" className="ring-rotate-btn" disabled={unsealing} onClick={() => setInnerAngle((a) => a + 90)}>
                 <Orbit size={13} /> Rotate Inner ({((innerAngle % 360 + 360) % 360)}°)
-              </button>
-              <button type="button" className="ring-rotate-btn auto-solve-btn" disabled={unsealing} onClick={triggerInsaneUnlock}>
-                <Zap size={13} /> Insane Spin &amp; Unseal
               </button>
             </div>
           </div>
